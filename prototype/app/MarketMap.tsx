@@ -28,6 +28,38 @@ function MarkLogo() {
   return <span className="mark-logo" aria-hidden="true"><i /><i /><i /></span>;
 }
 
+function JourneyFlow({ onSelect, onReview }: { onSelect: (initiative: Initiative) => void; onReview: () => void }) {
+  const get = (id: string) => initiatives.find((item) => item.id === id)!;
+  const Node = ({ id, compact = false }: { id: string; compact?: boolean }) => {
+    const item = get(id);
+    return <button className={`flow-node node-${item.stage.toLowerCase()} ${compact ? 'compact' : ''}`} onClick={() => onSelect(item)}><span className="node-type">{item.type}</span><b>{item.name}</b><small>{item.quarters.join(' · ') || 'Unscheduled'}<i aria-hidden="true">↗</i></small></button>;
+  };
+
+  return <section className="journey-canvas" aria-label="Marketing journey flows">
+    <div className="journey-topline"><div><p className="eyebrow">Connected journey view</p><h2>How your initiatives move demand</h2></div><div className="journey-key"><span><i className="key-node" />Initiative</span><span><i className="key-gap" />Missing link</span></div></div>
+    <div className="stage-rail"><span><i>01</i>Awareness <small>TOFU</small></span><b /><span><i>02</i>Consideration <small>MOFU</small></span><b /><span><i>03</i>Action <small>BOFU</small></span></div>
+
+    <div className="flow-lanes">
+      <article className="flow-lane technical-lane">
+        <header><span className="lane-icon">TS</span><span><b>Technical services</b><small>Prospecting → partner recruitment</small></span></header>
+        <div className="lane-path"><Node id="002" /><span className="path-line active"><i>Interest</i></span><button className="flow-gap" onClick={onReview}><span>＋</span><b>Add consideration step</b><small>Journey disconnect</small></button><span className="path-line warning"><i>Intent</i></span><Node id="003" /></div>
+      </article>
+
+      <article className="flow-lane education-lane">
+        <header><span className="lane-icon">ED</span><span><b>Education & events</b><small>Six initiatives building consideration</small></span></header>
+        <div className="lane-path"><button className="flow-gap subtle" onClick={onReview}><span>＋</span><b>Add discovery source</b><small>How do people arrive?</small></button><span className="path-line active"><i>Engage</i></span><div className="node-stack"><Node id="006" compact /><Node id="010" compact /><Node id="011" compact /><span>+ 3 webinars</span></div><span className="path-line warning"><i>Convert</i></span><button className="flow-gap urgent" onClick={onReview}><span>!</span><b>No next action mapped</b><small>Demand may stop here</small></button></div>
+      </article>
+
+      <article className="flow-lane services-lane">
+        <header><span className="lane-icon">MS</span><span><b>Marketing services</b><small>Always-on promotion and delivery</small></span></header>
+        <div className="lane-path"><button className="flow-gap subtle" onClick={onReview}><span>＋</span><b>Add awareness source</b><small>Upstream gap</small></button><span className="path-line active"><i>Discover</i></span><Node id="008" /><span className="path-line warning"><i>Act</i></span><button className="flow-gap" onClick={onReview}><span>＋</span><b>Add conversion step</b><small>Outcome not defined</small></button></div>
+      </article>
+    </div>
+
+    <div className="flow-insight"><span className="insight-spark">✦</span><p><b>Your strongest flow is Technical services,</b> but it jumps from awareness directly to recruitment. Education creates engagement, yet no next action is mapped.</p><button onClick={onReview}>Review gaps <span aria-hidden="true">→</span></button></div>
+  </section>;
+}
+
 const supporting = [
   { name: 'Price increase campaign', motion: 'Retention / expansion', quarters: ['Q1'] },
   { name: 'Solution Marketplace adoption', motion: 'Partner activation', quarters: ['Q1'] },
@@ -86,20 +118,7 @@ export default function MarketMap() {
         <div><span className="signal-number">10</span><span>funnel initiatives</span></div><div><span className="signal-number">7</span><span>supporting motions</span></div><div className="signal-alert"><span className="signal-number">01</span><span>conversion initiative</span><em>Potential gap</em></div><button className="review-link" onClick={() => setReviewing(true)}>Review 17 imported items <span aria-hidden="true">→</span></button>
       </section>
 
-      {view === 'funnel' ? <><section className="map-wrap" aria-labelledby="map-title">
-        <div className="map-heading"><div><p className="eyebrow">Your demand funnel</p><h2 id="map-title">Where the work is concentrated</h2></div><div className="map-legend"><span><i className="dot solid" />Ready to map</span><span><i className="dot ring" />Needs review</span></div></div>
-        <div className="funnel-map">
-          {(Object.keys(stageMeta) as Stage[]).map((stage) => {
-            const meta = stageMeta[stage];
-            const items = initiatives.filter((item) => item.stage === stage);
-            return <article className={`stage stage-${stage.toLowerCase()}`} key={stage}>
-              <header className="stage-header"><div><span className="stage-code">{stage}</span><h3>{meta.label}</h3></div><span className="stage-count">{meta.count.toString().padStart(2, '0')}</span></header>
-              <p className="stage-question">{meta.question}</p>
-              <div className="initiative-list">{items.map((item) => <button className="initiative" key={item.id} onClick={() => setSelected(item)}><span className={`confidence confidence-${item.confidence}`} aria-label={`${item.confidence} confidence`} /><span className="initiative-copy"><b>{item.name}</b><small>{item.type} · {item.quarters.join('–') || 'Unscheduled'}</small></span><span className="open-arrow" aria-hidden="true">↗</span></button>)}</div>
-            </article>;
-          })}
-        </div>
-      </section>
+      {view === 'funnel' ? <><JourneyFlow onSelect={setSelected} onReview={() => setReviewing(true)} />
 
       <section className="supporting-strip"><div><span className="support-icon" aria-hidden="true">◎</span><span><b>7 supporting motions</b><small>{supporting.map((item) => item.motion).filter((value, index, self) => self.indexOf(value) === index).slice(0, 4).join(', ')} & more</small></span></div><button onClick={() => setReviewing(true)}>Explore beyond the funnel <span aria-hidden="true">→</span></button></section></> : <YearMap onSelect={setSelected} />}
 
