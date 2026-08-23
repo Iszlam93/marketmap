@@ -18,3 +18,12 @@ export const createProjectsTable = `
 `;
 export const createStageIndex = `CREATE INDEX IF NOT EXISTS idx_projects_stage ON projects(stage)`;
 export const createJourneyIndex = `CREATE INDEX IF NOT EXISTS idx_projects_journey ON projects(journey)`;
+export const createJourneysTable = `
+  CREATE TABLE IF NOT EXISTS journeys (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+  )
+`;
