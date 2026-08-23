@@ -43,6 +43,8 @@ No public-launch or full-build decision has been made. The next milestone is evi
 - [MVP definition](docs/MVP.md)
 - [Validation plan](docs/VALIDATION.md)
 - [Product readiness review](PRODUCT_READINESS_REVIEW.md)
+- [2025 calendar normalization review](docs/NORMALIZATION_REVIEW.md)
+- [Normalized 2025 initiative dataset](data/normalized-initiatives-2025.json)
 
 ## Working principles
 
