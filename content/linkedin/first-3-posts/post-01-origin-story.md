@@ -1,8 +1,8 @@
-# Post 1 — The Origin Story
+# Building MarketMap in Public — Post 01
 
 ## Purpose
 
-Validate the core pain and introduce the MarketMap build-in-public journey.
+Begin the story with the repeated experience that pushed me to build MarketMap. This is the first chapter, not a launch announcement.
 
 ## Visual
 
@@ -12,31 +12,47 @@ Alt text: An editorial illustration showing fragmented spreadsheets, calendars a
 
 ## Ready-to-publish copy
 
-After nine years in marketing, I still find one thing unnecessarily difficult: seeing the full marketing plan.
+For years, I accepted this as a normal part of working in marketing.
 
-Not the task list.
+I would create the plan in a spreadsheet.
 
-Not one campaign.
+Then manage different projects in different places.
 
-The complete picture.
+Then, whenever someone asked where we were, I would create another monthly report, quarterly presentation or updated spreadsheet to explain the plan again.
 
-I’ve used spreadsheets for planning, project-management tools for delivery, presentations for leadership, and monthly or quarterly reports just to understand where we are.
+The work was there. The data was there. But the complete picture was never really there.
 
-The information exists — but the overview doesn’t.
+After nine years in marketing, I kept coming back to the same questions:
 
-That’s why I started building MarketMap: a visual workspace for seeing marketing projects across journeys, funnel stages and the year.
+- What are we doing across the full year?
+- How do the projects connect?
+- Which part of the journey does each project support?
+- Where are the gaps?
+- And why do I need to rebuild the overview every time I want to answer those questions?
 
-I’m going to share the process publicly: what I build, what I get wrong, and what I learn from other marketers.
+That frustration became the starting point for MarketMap.
 
-How do you currently get the full picture of your marketing plan?
+I didn’t begin with the idea of building another project-management tool. I began with a much simpler idea:
+
+What if a marketer could open one place and immediately understand the complete plan?
+
+So I started building it.
+
+The first version is not perfect. Some of the decisions have already changed, and there are still important questions I don’t know the answer to.
+
+I’m going to share that journey here — the product decisions, the designs that didn’t work, the feedback, the mistakes and the progress toward something marketers can genuinely use.
+
+This is Post 01 of building MarketMap in public.
+
+Before I show more of the product: how do you currently create the complete picture of your marketing plan?
 
 ## Suggested first comment
 
-I’m especially interested in whether you build the overview in a spreadsheet, presentation, project tool, dashboard — or a mixture of all four.
+For me, it was usually a mixture of spreadsheets, project tools, presentations and reports. I’m especially interested in how often you need to rebuild your own overview — monthly, quarterly, or every time leadership asks for it.
 
 ## Publishing notes
 
 - Do not add a product link.
+- Introduce this explicitly as Post 01 so readers understand that the journey will continue.
 - Respond to people by asking how often they rebuild or update their overview.
 - Look for language people repeatedly use to describe the problem.
-
