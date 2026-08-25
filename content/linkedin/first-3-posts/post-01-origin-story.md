@@ -6,7 +6,7 @@ Begin the story with the repeated experience that pushed me to build MarketMap. 
 
 ## Visual
 
-Use `designs/post-01-origin-story-FINAL.png`.
+Use `designs/post-01-origin-story-V2-FINAL.png`. This version includes the ongoing-series label and a smaller brand signature.
 
 Alt text: An editorial illustration showing fragmented spreadsheets, calendars and project cards flowing into one organised three-stage marketing map.
 

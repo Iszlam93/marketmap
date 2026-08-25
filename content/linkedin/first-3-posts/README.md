@@ -10,11 +10,11 @@ This folder contains the ready-to-publish copy and matching visual designs for t
 
 ## Final design files
 
-- `designs/post-01-origin-story-FINAL.png`
+- `designs/post-01-origin-story-V2-FINAL.png`
 - `designs/post-02-outside-funnel-FINAL.png`
 - `designs/post-03-testing-invitation-FINAL.png`
 
-The `-background.png` files are clean versions without text. Keep them for future edits or alternative headlines.
+The `-background.png` files are clean versions without text. Keep them for future edits or alternative headlines. The earlier `post-01-origin-story-FINAL.png` is preserved for comparison; publish the `V2-FINAL` version.
 
 ## Brand system used
 
@@ -45,4 +45,3 @@ Prioritise meaningful conversations over impressions or likes:
 - Early-access requests from relevant marketers.
 - Testers willing to map 5–10 real projects.
 - Product insights that change or strengthen a product decision.
-
