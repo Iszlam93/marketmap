@@ -13,6 +13,7 @@ export const createProjectsTable = `
     owner TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL DEFAULT 'planned',
     kpi TEXT NOT NULL DEFAULT '',
+    connections_json TEXT NOT NULL DEFAULT '[]',
     updated_at TEXT NOT NULL
   )
 `;

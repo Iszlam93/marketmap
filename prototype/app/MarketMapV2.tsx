@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react';
 import readXlsxFile from 'read-excel-file/browser';
 import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
+import './strategy.css';
 
 type Stage = 'TOFU' | 'MOFU' | 'BOFU' | 'UNASSIGNED';
 type Journey = string;
 type JourneyRecord = { id:string; name:string; description:string; sortOrder:number };
 type PlanRecord = { id:string; name:string; year:number };
+type ConnectionType = 'supports'|'leads_to'|'depends_on'|'repurposes';
+type ProjectConnection = { targetId:string; type:ConnectionType };
 export type Project = {
   id: string;
   name: string;
@@ -22,6 +25,7 @@ export type Project = {
   owner?: string;
   status?: 'idea'|'planned'|'in_progress'|'live'|'complete'|'blocked';
   kpi?: string;
+  connections?: ProjectConnection[];
 };
 
 export const projects: Project[] = [
@@ -56,6 +60,7 @@ const lanes=initialJourneys.map(item=>({key:item.id,name:item.name,description:i
 
 const funnelStages: Stage[]=['TOFU','MOFU','BOFU'];
 function stagesFor(project:Project){return project.stages?.length?project.stages:[project.stage]}
+const connectionLabels:Record<ConnectionType,string>={supports:'Supports',leads_to:'Leads to',depends_on:'Depends on',repurposes:'Repurposes'};
 
 function Logo(){ return <span className="v2-logo" aria-hidden="true"><i/><i/><i/></span>; }
 
@@ -83,17 +88,22 @@ function ProjectDrawer({ project, onClose, onSaveLink, onPlace }: { project:Proj
   </aside></div>;
 }
 
-function ProjectEditor({ project,journeys,onClose,onSave }: { project:Project; journeys:JourneyRecord[]; onClose:()=>void; onSave:(project:Project)=>void }){
-  const [draft,setDraft]=useState<Project>({...project,dates:[...project.dates]});
+function ProjectEditor({ project,projects:allProjects,journeys,onClose,onSave }: { project:Project; projects:Project[]; journeys:JourneyRecord[]; onClose:()=>void; onSave:(project:Project)=>void }){
+  const [draft,setDraft]=useState<Project>({...project,dates:[...project.dates],connections:[...(project.connections||[])]});
+  const [connectionTarget,setConnectionTarget]=useState('');
+  const [connectionType,setConnectionType]=useState<ConnectionType>('leads_to');
   const update=<K extends keyof Project>(key:K,value:Project[K])=>setDraft(current=>({...current,[key]:value}));
   const updateDate=(index:number,value:string)=>update('dates',draft.dates.map((date,i)=>i===index?value:date));
   const repeatQuarterly=()=>{if(!draft.dates[0])return;const base=new Date(`${draft.dates[0]}T12:00:00`);const dates=[0,3,6,9].map(offset=>{const next=new Date(base);next.setMonth(base.getMonth()+offset);return next.toISOString().slice(0,10)});update('dates',[...new Set([...draft.dates,...dates])].sort())};
   const toggleStage=(stage:Stage)=>{const current=stagesFor(draft).filter(value=>value!=='UNASSIGNED');const next=current.includes(stage)?current.filter(value=>value!==stage):[...current,stage];const stages=next.length?next:['UNASSIGNED' as Stage];setDraft(value=>({...value,stages,stage:stages[0]}))};
+  const addConnection=()=>{if(!connectionTarget)return;update('connections',[...(draft.connections||[]),{targetId:connectionTarget,type:connectionType}]);setConnectionTarget('')};
   return <div className="v2-scrim" onClick={onClose}><aside className="v3-editor" role="dialog" aria-modal="true" aria-label={`${project.name} project card`} onClick={event=>event.stopPropagation()}>
     <header><div><span className={`v2-stage stage-${draft.stage.toLowerCase()}`}>{draft.stage}</span><span className={`status-pill status-${draft.status||'planned'}`}>{(draft.status||'planned').replace('_',' ')}</span></div><button onClick={onClose} aria-label="Close project">×</button></header>
     <p className="v2-kicker">{draft.type} · Project card</p><input className="v3-title" value={draft.name} onChange={event=>update('name',event.target.value)} aria-label="Project name"/>
     <div className="v3-fields"><label>Owner<input value={draft.owner||''} onChange={event=>update('owner',event.target.value)} placeholder="Add an owner"/></label><label>Status<select value={draft.status||'planned'} onChange={event=>update('status',event.target.value as Project['status'])}><option value="idea">Idea</option><option value="planned">Planned</option><option value="in_progress">In progress</option><option value="live">Live</option><option value="complete">Complete</option><option value="blocked">Blocked</option></select></label><label>Category<select value={draft.type} onChange={event=>update('type',event.target.value)}><option>Campaign</option><option>Event</option><option>Webinar</option><option>Program</option><option>Content</option><option>Research</option></select></label><label>Journey<select value={draft.journey||''} onChange={event=>update('journey',(event.target.value||undefined) as Journey|undefined)}><option value="">Other projects</option>{journeys.map(journey=><option value={journey.id} key={journey.id}>{journey.name}</option>)}</select></label><fieldset className="v3-stage-picker"><legend>Funnel coverage <small>Select every stage this project supports</small></legend>{funnelStages.map(stage=><label key={stage} className={stagesFor(draft).includes(stage)?'selected':''}><input type="checkbox" checked={stagesFor(draft).includes(stage)} onChange={()=>toggleStage(stage)}/><b>{stage}</b><span>{stage==='TOFU'?'Awareness':stage==='MOFU'?'Consideration':'Action'}</span></label>)}<button type="button" className={`v5-outside-choice ${stagesFor(draft).includes('UNASSIGNED')?'selected':''}`} onClick={()=>setDraft(value=>({...value,stage:'UNASSIGNED',stages:['UNASSIGNED']}))}><b>Outside funnel</b><span>Supporting work: research, reporting, retention or operations</span></button></fieldset></div>
-    <label className="v3-block">Objective<textarea value={draft.objective} onChange={event=>update('objective',event.target.value)} placeholder="What should this project achieve?"/></label><label className="v3-block">Success measure / KPI<input value={draft.kpi||''} onChange={event=>update('kpi',event.target.value)} placeholder="e.g. 30 registrations or 15 qualified leads"/></label><label className="v3-block">Project link<input value={draft.link||''} onChange={event=>update('link',event.target.value)} placeholder="Brief, folder, Asana project or campaign URL"/></label>
+    <label className="v3-block">Objective<textarea value={draft.objective} onChange={event=>update('objective',event.target.value)} placeholder="What should this project achieve?"/></label><label className="v3-block">Success measure / KPI<input value={draft.kpi||''} onChange={event=>update('kpi',event.target.value)} placeholder="e.g. 30 registrations or 15 qualified leads"/></label>
+    <section className="v7-editor-connections"><header><div><h3>Strategy connections</h3><p>Show how this project supports, follows or depends on another project.</p></div><span>{draft.connections?.length||0}</span></header>{(draft.connections||[]).length>0&&<div className="v7-editor-connection-list">{(draft.connections||[]).map((connection,index)=>{const target=allProjects.find(item=>item.id===connection.targetId);return <div key={`${connection.targetId}-${index}`}><span><b>{connectionLabels[connection.type]}</b><small>{target?.name||'Project no longer available'}</small></span><button onClick={()=>update('connections',(draft.connections||[]).filter((_,itemIndex)=>itemIndex!==index))} aria-label={`Remove connection to ${target?.name||'project'}`}>×</button></div>})}</div>}<div className="v7-add-connection"><select aria-label="Connection type" value={connectionType} onChange={event=>setConnectionType(event.target.value as ConnectionType)}>{Object.entries(connectionLabels).map(([value,label])=><option value={value} key={value}>{label}</option>)}</select><select aria-label="Connected project" value={connectionTarget} onChange={event=>setConnectionTarget(event.target.value)}><option value="">Choose another project…</option>{allProjects.filter(item=>item.id!==draft.id&&!(draft.connections||[]).some(connection=>connection.targetId===item.id)).map(item=><option value={item.id} key={item.id}>{item.name}</option>)}</select><button type="button" onClick={addConnection} disabled={!connectionTarget}>＋ Connect</button></div></section>
+    <label className="v3-block">Project link<input value={draft.link||''} onChange={event=>update('link',event.target.value)} placeholder="Brief, folder, Asana project or campaign URL"/></label>
     <section className="v3-dates"><header><div><h3>Active dates</h3><p>Each date is placed in its exact week on the Year Map.</p></div><button onClick={repeatQuarterly}>Repeat quarterly</button></header>{draft.dates.map((date,index)=><div key={`${index}-${date}`}><input type="date" value={date} onChange={event=>updateDate(index,event.target.value)}/><button onClick={()=>update('dates',draft.dates.filter((_,i)=>i!==index))} aria-label={`Remove ${date}`}>×</button></div>)}<button className="v3-add-date" onClick={()=>update('dates',[...draft.dates,''])}>＋ Add another date</button></section>
     <footer><span>Changes will be saved to your MarketMap.</span><button onClick={()=>onSave(draft)}>Save project</button></footer>
   </aside></div>;
@@ -117,6 +127,36 @@ function YearTimeline({ items,year,onOpen }: { items:Project[];year:number;onOpe
     <header className="v2-year-head"><div><p className="v2-kicker">{year} · 52-week planning view</p><h2>Every project, on the week it happens.</h2><p>Exact activity dates translated into your {year} marketing calendar.</p></div><div className="v2-year-stats"><span><b>{scheduled.length}</b> scheduled</span><span><b>{unscheduled.length}</b> need {year} dates</span></div></header>
     <div className="v2-quarter-list">{quarters.map(quarter=>{const weeks=Array.from({length:13},(_,index)=>quarter.start+index);const quarterProjects=scheduled.filter(project=>datesInYear(project).some(date=>{const week=weekNumber(date,year);return week>=quarter.start&&week<=quarter.end}));const isOpen=openQuarters.has(quarter.id);return <section className={`v2-quarter ${isOpen?'open':'closed'}`} key={quarter.id}><button className="v2-quarter-toggle" onClick={()=>toggle(quarter.id)} aria-expanded={isOpen}><span><i>{isOpen?'−':'+'}</i><b>{quarter.id}</b><small>{quarter.label}</small></span><span><b>{quarterProjects.length}</b><small>projects</small></span></button>{isOpen&&<div className="v2-quarter-body"><div className="v2-quarter-weeks"><span className="timeline-label"><b>Project</b><small>Category · Stage</small></span><div>{weeks.map(week=><span key={week}>Week {week}</span>)}</div></div>{quarterProjects.map(project=>{const activeWeeks=[...new Set(datesInYear(project).map(date=>weekNumber(date,year)))];return <button className="v2-quarter-project" key={project.id} onClick={()=>onOpen(project)}><span className="timeline-label"><b>{project.name}</b><small><i className={`mini-category category-${project.type.toLowerCase().replaceAll(' ','-')}`}/>{project.type} · {project.stage}</small></span><div>{weeks.map(week=><span key={week} className={activeWeeks.includes(week)?`active week-${project.stage.toLowerCase()}`:''}>{activeWeeks.includes(week)&&<i>W{week}</i>}</span>)}</div></button>})}</div>}</section>})}</div>
     {unscheduled.length>0&&<section className="v2-unscheduled"><header><div><h3>Needs scheduling</h3><p>These projects are part of the plan but have no confirmed week.</p></div><b>{unscheduled.length}</b></header><div>{unscheduled.map(project=><button key={project.id} onClick={()=>onOpen(project)}><span className={`v2-stage stage-${project.stage.toLowerCase()}`}>{project.stage}</span><b>{project.name}</b><small>Open project card →</small></button>)}</div></section>}
+  </section>;
+}
+
+function StrategyMap({items,journeys,onOpen}:{items:Project[];journeys:JourneyRecord[];onOpen:(project:Project)=>void}){
+  const [selectedId,setSelectedId]=useState<string|null>(null);
+  const [search,setSearch]=useState('');
+  const [fitActive,setFitActive]=useState(false);
+  const groups=[...journeys.map(journey=>({...journey,projects:items.filter(item=>item.journey===journey.id)})),{id:'other',name:'Cross-plan work',description:'Projects that support the plan beyond one demand journey.',sortOrder:journeys.length,projects:items.filter(item=>!item.journey)}].filter(group=>group.projects.length);
+  const connectionCount=items.reduce((total,item)=>total+(item.connections?.length||0),0);
+  const incomingIds=new Set(items.flatMap(item=>(item.connections||[]).map(connection=>connection.targetId)));
+  const disconnected=items.filter(item=>!(item.connections?.length)&&!incomingIds.has(item.id));
+  const selected=items.find(item=>item.id===selectedId);
+  const relatedIds=new Set<string>(selected?[selected.id,...(selected.connections||[]).map(connection=>connection.targetId),...items.filter(item=>(item.connections||[]).some(connection=>connection.targetId===selected.id)).map(item=>item.id)]:[]);
+  const matches=(project:Project)=>!search.trim()||[project.name,project.type,project.objective,project.kpi].some(value=>value?.toLowerCase().includes(search.trim().toLowerCase()));
+  return <section className="v7-strategy">
+    <header className="v7-strategy-head"><div><p className="v2-kicker">Strategy map · Objectives to outcomes</p><h2>See why every project exists—and what it connects to.</h2><p>Projects appear once inside their strategic pillar. Select one to spotlight everything immediately upstream and downstream.</p></div><div><span><b>{items.length}</b> projects</span><span><b>{connectionCount}</b> connections</span><span className={disconnected.length?'attention':''}><b>{disconnected.length}</b> disconnected</span></div></header>
+    <div className="v7-strategy-toolbar"><label>⌕<input value={search} onChange={event=>setSearch(event.target.value)} placeholder="Find a project, objective or KPI"/></label><div className="v7-relationship-key">{Object.values(connectionLabels).map(label=><span key={label}><i/> {label}</span>)}</div><button className={fitActive?'active':''} onClick={()=>setFitActive(value=>!value)}>{fitActive?'↗ Default view':'⌗ Fit full map'}</button></div>
+    <div className="v7-map-viewport"><div className={`v7-map-canvas ${fitActive?'fit':''}`}>
+      <div className="v7-column-head"><span>Strategic pillar</span><span>Connected projects</span><span>Expected outcomes</span></div>
+      {groups.map(group=><article className="v7-strategy-group" key={group.id}>
+        <div className="v7-pillar"><span>{String(group.sortOrder+1).padStart(2,'0')}</span><h3>{group.name}</h3><p>{group.description}</p><small>{group.projects.length} projects in this pillar</small></div>
+        <div className="v7-project-network">{group.projects.map(project=>{const isRelated=!selectedId||relatedIds.has(project.id);const targetConnections=(project.connections||[]).map(connection=>({...connection,target:items.find(item=>item.id===connection.targetId)})).filter(connection=>connection.target);return <article className={`v7-strategy-project ${selectedId===project.id?'selected':''} ${!isRelated?'muted':''} ${!matches(project)?'search-muted':''}`} key={project.id} onClick={()=>setSelectedId(current=>current===project.id?null:project.id)} tabIndex={0} onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();setSelectedId(current=>current===project.id?null:project.id)}}}>
+          <header><span><i className={`mini-category category-${project.type.toLowerCase().replaceAll(' ','-')}`}/>{project.type}</span><em>{stagesFor(project).includes('UNASSIGNED')?'Supporting':stagesFor(project).join(' → ')}</em></header><h4>{project.name}</h4><p>{project.objective||'Objective needed'}</p>
+          <div className="v7-project-links">{targetConnections.length?targetConnections.map(connection=><span key={`${connection.type}-${connection.targetId}`}><b>{connectionLabels[connection.type]}</b><i>→</i>{connection.target?.name}</span>):<span className="empty"><b>Not connected yet</b><i>＋</i>Add a connection</span>}</div>
+          <footer><span className={`status-dot status-${project.status||'planned'}`}>{(project.status||'planned').replace('_',' ')}</span><button onClick={event=>{event.stopPropagation();onOpen(project)}}>Open project →</button></footer>
+        </article>})}</div>
+        <div className="v7-outcomes">{group.projects.map(project=><button key={project.id} className={`${selectedId&&relatedIds.has(project.id)?'related':''} ${!matches(project)?'search-muted':''}`} onClick={()=>setSelectedId(project.id)}><span>{project.kpi?.trim()?'KPI':'KPI needed'}</span><b>{project.kpi?.trim()||'Define the measurable outcome'}</b><small>{project.name}</small></button>)}</div>
+      </article>)}
+    </div></div>
+    <footer className="v7-strategy-insight"><span>✦</span><p><b>{disconnected.length?`${disconnected.length} projects are still strategic islands.`:'Every project is connected.'}</b> {disconnected.length?'Open a project and use Strategy connections to show what it supports, leads to, depends on or repurposes.':'Select any project to inspect its immediate network.'}</p>{selected&&<button onClick={()=>onOpen(selected)}>Edit {selected.name} →</button>}</footer>
   </section>;
 }
 
@@ -233,7 +273,7 @@ export default function MarketMapV2(){
   const [items,setItems]=useState(projects);
   const [plan,setPlan]=useState<PlanRecord>({id:'default',name:'ISV Marketing',year:2025});
   const [selected,setSelected]=useState<Project|null>(null);
-  const [view,setView]=useState<'flow'|'year'>('flow');
+  const [view,setView]=useState<'flow'|'year'|'strategy'>('flow');
   const [adding,setAdding]=useState(false);
   const [importing,setImporting]=useState(false);
   const [managingJourneys,setManagingJourneys]=useState(false);
@@ -252,10 +292,10 @@ export default function MarketMapV2(){
   const initials=plan.name.split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()||'MP';
   return <main className="v2-shell">
     <header className="v2-topbar"><a href="#" className="v2-brand"><Logo/><b>MarketMap</b></a><button className="v2-plan" onClick={()=>setEditingPlan(true)} aria-label="Edit plan name and year"><span>{initials}</span><p><b>{plan.name}</b><small>{plan.year} plan · Edit</small></p></button><div className={`v6-save-state ${saveState}`} role="status">{saveState==='saving'?'Saving…':saveState==='saved'?'✓ Saved':saveState==='error'?'Could not save':'All changes saved'}</div><button className="v2-avatar">IE</button></header>
-    <section className="v2-heading"><div><p className="v2-kicker">Demand plan · {plan.year}</p><h1>{view==='flow'?'See how the work connects.':'See when the work happens.'}</h1><p>{view==='flow'?'Follow every project from discovery to action—and see what needs attention.':'Plan at week level, spot busy periods, and find projects that still need dates.'}</p></div><div><nav aria-label="Plan views"><button className={view==='flow'?'active':''} onClick={()=>setView('flow')}>Flow map</button><button className={view==='year'?'active':''} onClick={()=>setView('year')}>Year map</button></nav><button className="v3-import-button" onClick={()=>setImporting(true)}>↑ Import</button><button className="v2-add" onClick={()=>setAdding(true)}>＋ Add project</button></div></section>
+    <section className="v2-heading"><div><p className="v2-kicker">Demand plan · {plan.year}</p><h1>{view==='flow'?'See where the work moves.':view==='year'?'See when the work happens.':'See why the work matters.'}</h1><p>{view==='flow'?'Follow every project from discovery to action—and see what needs attention.':view==='year'?'Plan at week level, spot busy periods, and find projects that still need dates.':'Connect objectives, projects and outcomes into one complete strategic picture.'}</p></div><div><nav aria-label="Plan views"><button className={view==='flow'?'active':''} onClick={()=>setView('flow')}>Flow map</button><button className={view==='year'?'active':''} onClick={()=>setView('year')}>Year map</button><button className={view==='strategy'?'active':''} onClick={()=>setView('strategy')}>Strategy map</button></nav><button className="v3-import-button" onClick={()=>setImporting(true)}>↑ Import</button><button className="v2-add" onClick={()=>setAdding(true)}>＋ Add project</button></div></section>
     <PlanInsights items={items} journeys={journeys} year={plan.year} onOpen={setSelected}/>
-    {view==='flow'?<FlowWorkspace items={items} journeys={journeys} onOpen={setSelected} onMove={moveProject} onAdd={()=>setAdding(true)} onManage={()=>setManagingJourneys(true)}/>:<YearTimeline items={items} year={plan.year} onOpen={setSelected}/>}
-    {selected&&<ProjectEditor project={selected} journeys={journeys} onClose={()=>setSelected(null)} onSave={saveProject}/>}
+    {view==='flow'?<FlowWorkspace items={items} journeys={journeys} onOpen={setSelected} onMove={moveProject} onAdd={()=>setAdding(true)} onManage={()=>setManagingJourneys(true)}/>:view==='year'?<YearTimeline items={items} year={plan.year} onOpen={setSelected}/>:<StrategyMap items={items} journeys={journeys} onOpen={setSelected}/>}
+    {selected&&<ProjectEditor project={selected} projects={items} journeys={journeys} onClose={()=>setSelected(null)} onSave={saveProject}/>}
     {adding&&<AddProject journeys={journeys} onClose={()=>setAdding(false)} onAdd={addProject}/>}
     {importing&&<ImportPlan onClose={()=>setImporting(false)} onImport={importProjects}/>}
     {managingJourneys&&<ManageJourneys journeys={journeys} onClose={()=>setManagingJourneys(false)} onSave={saveJourneys}/>}
