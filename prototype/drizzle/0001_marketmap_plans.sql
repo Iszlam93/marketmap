@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS plans (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  plan_year INTEGER NOT NULL,
+  updated_at TEXT NOT NULL
+);

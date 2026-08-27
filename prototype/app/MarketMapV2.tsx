@@ -7,6 +7,7 @@ import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useDraggable, u
 type Stage = 'TOFU' | 'MOFU' | 'BOFU' | 'UNASSIGNED';
 type Journey = string;
 type JourneyRecord = { id:string; name:string; description:string; sortOrder:number };
+type PlanRecord = { id:string; name:string; year:number };
 export type Project = {
   id: string;
   name: string;
@@ -98,23 +99,55 @@ function ProjectEditor({ project,journeys,onClose,onSave }: { project:Project; j
   </aside></div>;
 }
 
-function weekNumber(dateString:string){
+function weekNumber(dateString:string,year:number){
   const date=new Date(`${dateString}T12:00:00Z`);
-  const start=new Date('2025-01-01T12:00:00Z');
+  const start=new Date(`${year}-01-01T12:00:00Z`);
   const offset=(start.getUTCDay()+6)%7;
   return Math.min(52,Math.max(1,Math.floor(((date.getTime()-start.getTime())/86400000+offset)/7)+1));
 }
 
-function YearTimeline({ items,onOpen }: { items:Project[]; onOpen:(project:Project)=>void }){
+function YearTimeline({ items,year,onOpen }: { items:Project[];year:number;onOpen:(project:Project)=>void }){
   const [openQuarters,setOpenQuarters]=useState<Set<string>>(new Set(['Q1','Q2','Q3','Q4']));
-  const scheduled=items.filter(item=>item.dates.length);
-  const unscheduled=items.filter(item=>!item.dates.length);
+  const datesInYear=(project:Project)=>project.dates.filter(date=>date.startsWith(`${year}-`));
+  const scheduled=items.filter(item=>datesInYear(item).length);
+  const unscheduled=items.filter(item=>!datesInYear(item).length);
   const quarters=[{id:'Q1',label:'January — March',start:1,end:13},{id:'Q2',label:'April — June',start:14,end:26},{id:'Q3',label:'July — September',start:27,end:39},{id:'Q4',label:'October — December',start:40,end:52}];
   const toggle=(id:string)=>setOpenQuarters(current=>{const next=new Set(current);if(next.has(id))next.delete(id);else next.add(id);return next});
   return <section className="v2-year">
-    <header className="v2-year-head"><div><p className="v2-kicker">52-week planning view</p><h2>Every project, on the week it happens.</h2><p>Exact activity dates from your spreadsheet translated into a weekly marketing calendar.</p></div><div className="v2-year-stats"><span><b>{scheduled.length}</b> scheduled</span><span><b>{unscheduled.length}</b> need dates</span></div></header>
-    <div className="v2-quarter-list">{quarters.map(quarter=>{const weeks=Array.from({length:13},(_,index)=>quarter.start+index);const quarterProjects=scheduled.filter(project=>project.dates.some(date=>{const week=weekNumber(date);return week>=quarter.start&&week<=quarter.end}));const isOpen=openQuarters.has(quarter.id);return <section className={`v2-quarter ${isOpen?'open':'closed'}`} key={quarter.id}><button className="v2-quarter-toggle" onClick={()=>toggle(quarter.id)} aria-expanded={isOpen}><span><i>{isOpen?'−':'+'}</i><b>{quarter.id}</b><small>{quarter.label}</small></span><span><b>{quarterProjects.length}</b><small>projects</small></span></button>{isOpen&&<div className="v2-quarter-body"><div className="v2-quarter-weeks"><span className="timeline-label"><b>Project</b><small>Category · Stage</small></span><div>{weeks.map(week=><span key={week}>Week {week}</span>)}</div></div>{quarterProjects.map(project=>{const activeWeeks=[...new Set(project.dates.map(weekNumber))];return <button className="v2-quarter-project" key={project.id} onClick={()=>onOpen(project)}><span className="timeline-label"><b>{project.name}</b><small><i className={`mini-category category-${project.type.toLowerCase().replaceAll(' ','-')}`}/>{project.type} · {project.stage}</small></span><div>{weeks.map(week=><span key={week} className={activeWeeks.includes(week)?`active week-${project.stage.toLowerCase()}`:''}>{activeWeeks.includes(week)&&<i>W{week}</i>}</span>)}</div></button>})}</div>}</section>})}</div>
+    <header className="v2-year-head"><div><p className="v2-kicker">{year} · 52-week planning view</p><h2>Every project, on the week it happens.</h2><p>Exact activity dates translated into your {year} marketing calendar.</p></div><div className="v2-year-stats"><span><b>{scheduled.length}</b> scheduled</span><span><b>{unscheduled.length}</b> need {year} dates</span></div></header>
+    <div className="v2-quarter-list">{quarters.map(quarter=>{const weeks=Array.from({length:13},(_,index)=>quarter.start+index);const quarterProjects=scheduled.filter(project=>datesInYear(project).some(date=>{const week=weekNumber(date,year);return week>=quarter.start&&week<=quarter.end}));const isOpen=openQuarters.has(quarter.id);return <section className={`v2-quarter ${isOpen?'open':'closed'}`} key={quarter.id}><button className="v2-quarter-toggle" onClick={()=>toggle(quarter.id)} aria-expanded={isOpen}><span><i>{isOpen?'−':'+'}</i><b>{quarter.id}</b><small>{quarter.label}</small></span><span><b>{quarterProjects.length}</b><small>projects</small></span></button>{isOpen&&<div className="v2-quarter-body"><div className="v2-quarter-weeks"><span className="timeline-label"><b>Project</b><small>Category · Stage</small></span><div>{weeks.map(week=><span key={week}>Week {week}</span>)}</div></div>{quarterProjects.map(project=>{const activeWeeks=[...new Set(datesInYear(project).map(date=>weekNumber(date,year)))];return <button className="v2-quarter-project" key={project.id} onClick={()=>onOpen(project)}><span className="timeline-label"><b>{project.name}</b><small><i className={`mini-category category-${project.type.toLowerCase().replaceAll(' ','-')}`}/>{project.type} · {project.stage}</small></span><div>{weeks.map(week=><span key={week} className={activeWeeks.includes(week)?`active week-${project.stage.toLowerCase()}`:''}>{activeWeeks.includes(week)&&<i>W{week}</i>}</span>)}</div></button>})}</div>}</section>})}</div>
     {unscheduled.length>0&&<section className="v2-unscheduled"><header><div><h3>Needs scheduling</h3><p>These projects are part of the plan but have no confirmed week.</p></div><b>{unscheduled.length}</b></header><div>{unscheduled.map(project=><button key={project.id} onClick={()=>onOpen(project)}><span className={`v2-stage stage-${project.stage.toLowerCase()}`}>{project.stage}</span><b>{project.name}</b><small>Open project card →</small></button>)}</div></section>}
+  </section>;
+}
+
+function PlanSettings({plan,onClose,onSave}:{plan:PlanRecord;onClose:()=>void;onSave:(plan:PlanRecord)=>void}){
+  const [draft,setDraft]=useState(plan);
+  return <div className="v2-scrim" onClick={onClose}><section className="v6-plan-modal" role="dialog" aria-modal="true" aria-label="Plan settings" onClick={event=>event.stopPropagation()}>
+    <header><div><p className="v2-kicker">Plan settings</p><h2>Name the plan you are working on.</h2><p>The selected year controls the dates and weeks shown in your Year Map.</p></div><button onClick={onClose} aria-label="Close">×</button></header>
+    <label>Plan name<input autoFocus value={draft.name} onChange={event=>setDraft(current=>({...current,name:event.target.value}))} placeholder="e.g. 2026 Demand Generation Plan"/></label>
+    <label>Planning year<input type="number" min="2000" max="2100" value={draft.year} onChange={event=>setDraft(current=>({...current,year:Number(event.target.value)}))}/></label>
+    <footer><button onClick={onClose}>Cancel</button><button onClick={()=>draft.name.trim()&&onSave({...draft,name:draft.name.trim()})}>Save plan</button></footer>
+  </section></div>;
+}
+
+function PlanInsights({items,journeys,year,onOpen}:{items:Project[];journeys:JourneyRecord[];year:number;onOpen:(project:Project)=>void}){
+  const [expanded,setExpanded]=useState(false);
+  const missingOwners=items.filter(item=>!item.owner?.trim());
+  const missingKpis=items.filter(item=>!item.kpi?.trim());
+  const needsDates=items.filter(item=>!item.dates.some(date=>date.startsWith(`${year}-`)));
+  const blocked=items.filter(item=>item.status==='blocked');
+  const funnelGaps=journeys.filter(journey=>!items.some(item=>item.journey===journey.id&&stagesFor(item).includes('BOFU')));
+  const issues=[
+    {key:'owner',count:missingOwners.length,label:'need an owner',detail:'Ownership keeps the plan accountable.',projects:missingOwners},
+    {key:'kpi',count:missingKpis.length,label:'need a KPI',detail:'Define what success should look like.',projects:missingKpis},
+    {key:'date',count:needsDates.length,label:`need ${year} dates`,detail:'Unscheduled work cannot be balanced across the year.',projects:needsDates},
+    {key:'blocked',count:blocked.length,label:'are blocked',detail:'These projects need a decision or intervention.',projects:blocked},
+  ];
+  const attention=issues.reduce((total,issue)=>total+issue.count,0)+funnelGaps.length;
+  return <section className="v6-insights" aria-label="Plan insights">
+    <header><div><span>✦</span><p><b>{attention?`${attention} signals need attention`:'Your plan is looking complete'}</b><small>MarketMap checks the plan for missing ownership, measures, timing and funnel coverage.</small></p></div><button onClick={()=>setExpanded(value=>!value)} aria-expanded={expanded}>{expanded?'Hide details':'Review insights'} {expanded?'↑':'↓'}</button></header>
+    <div className="v6-insight-cards">{issues.map(issue=><article className={issue.count?'attention':'clear'} key={issue.key}><b>{issue.count}</b><span>{issue.label}</span><small>{issue.count?issue.detail:'Nothing to fix here.'}</small></article>)}<article className={funnelGaps.length?'attention':'clear'}><b>{funnelGaps.length}</b><span>journey funnel gaps</span><small>{funnelGaps.length?'No BOFU project in: '+funnelGaps.map(item=>item.name).join(', '):'Every journey reaches action.'}</small></article></div>
+    {expanded&&<div className="v6-insight-detail"><div><h3>Projects to complete</h3><p>Open a project and add the missing information. One project may appear in more than one signal.</p></div><div>{[...new Map(issues.flatMap(issue=>issue.projects).map(project=>[project.id,project])).values()].slice(0,8).map(project=><button key={project.id} onClick={()=>onOpen(project)}><span><b>{project.name}</b><small>{[!project.owner?.trim()?'Owner':null,!project.kpi?.trim()?'KPI':null,!project.dates.some(date=>date.startsWith(`${year}-`))?`${year} date`:null,project.status==='blocked'?'Blocked':null].filter(Boolean).join(' · ')}</small></span><em>Open →</em></button>)}</div></div>}
   </section>;
 }
 
@@ -198,26 +231,34 @@ function FlowWorkspace({items,journeys,onOpen,onMove,onAdd,onManage}: {items:Pro
 
 export default function MarketMapV2(){
   const [items,setItems]=useState(projects);
+  const [plan,setPlan]=useState<PlanRecord>({id:'default',name:'ISV Marketing',year:2025});
   const [selected,setSelected]=useState<Project|null>(null);
   const [view,setView]=useState<'flow'|'year'>('flow');
   const [adding,setAdding]=useState(false);
   const [importing,setImporting]=useState(false);
   const [managingJourneys,setManagingJourneys]=useState(false);
+  const [editingPlan,setEditingPlan]=useState(false);
+  const [saveState,setSaveState]=useState<'idle'|'saving'|'saved'|'error'>('idle');
   const [journeys,setJourneys]=useState<JourneyRecord[]>(initialJourneys);
-  useEffect(()=>{let active=true;const load=async()=>{try{const [projectResponse,journeyResponse]=await Promise.all([fetch('/api/projects'),fetch('/api/journeys')]);if(projectResponse.ok){const data=await projectResponse.json() as {projects:Project[]};if(active){if(data.projects.length)setItems(data.projects);else{const seed=[...projects,...supportingProjects];setItems(seed);await fetch('/api/projects',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({projects:seed})})}}}if(journeyResponse.ok){const data=await journeyResponse.json() as {journeys:JourneyRecord[]};if(active){if(data.journeys.length)setJourneys(data.journeys);else await fetch('/api/journeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({journeys:initialJourneys})})}}}catch{/* Keep the visible sample if local storage is unavailable. */}};load();return()=>{active=false}},[]);
-  const persist=async(project:Project)=>{await fetch('/api/projects',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(project)})};
+  useEffect(()=>{let active=true;const load=async()=>{try{const [projectResponse,journeyResponse,planResponse]=await Promise.all([fetch('/api/projects'),fetch('/api/journeys'),fetch('/api/plan')]);if(projectResponse.ok){const data=await projectResponse.json() as {projects:Project[]};if(active){if(data.projects.length)setItems(data.projects);else{const seed=[...projects,...supportingProjects];setItems(seed);await fetch('/api/projects',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({projects:seed})})}}}if(journeyResponse.ok){const data=await journeyResponse.json() as {journeys:JourneyRecord[]};if(active){if(data.journeys.length)setJourneys(data.journeys);else await fetch('/api/journeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({journeys:initialJourneys})})}}if(planResponse.ok){const data=await planResponse.json() as {plan:PlanRecord};if(active)setPlan(data.plan)}}catch{/* Keep the visible sample if storage is unavailable. */}};load();return()=>{active=false}},[]);
+  const withSave=async(request:Promise<Response>)=>{setSaveState('saving');try{const response=await request;if(!response.ok)throw new Error('Save failed');setSaveState('saved');setTimeout(()=>setSaveState('idle'),1800)}catch{setSaveState('error')}};
+  const persist=async(project:Project)=>withSave(fetch('/api/projects',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(project)}));
   const saveProject=(project:Project)=>{setItems(current=>current.map(item=>item.id===project.id?project:item));setSelected(null);void persist(project)};
   const moveProject=(id:string,stage:Stage,journey:Journey|undefined)=>{const project=items.find(item=>item.id===id);if(!project)return;const existing=stagesFor(project).filter(value=>value!=='UNASSIGNED');const stages:Stage[]=stage==='UNASSIGNED'?['UNASSIGNED']:(existing.includes(stage)?existing:[...existing,stage]);const moved={...project,stage:stages[0],stages,journey};setItems(current=>current.map(item=>item.id===id?moved:item));void persist(moved)};
   const addProject=(project:Project)=>{setItems(current=>[...current,project]);setAdding(false);setSelected(project);void persist(project)};
-  const importProjects=(imported:Project[])=>{setItems(current=>{const byId=new Map(current.map(item=>[item.id,item]));imported.forEach(item=>byId.set(item.id,{...byId.get(item.id),...item}));return [...byId.values()]});setImporting(false);void fetch('/api/projects',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({projects:imported})})};
-  const saveJourneys=(next:JourneyRecord[])=>{setJourneys(next);setManagingJourneys(false);void fetch('/api/journeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({journeys:next})})};
+  const importProjects=(imported:Project[])=>{setItems(current=>{const byId=new Map(current.map(item=>[item.id,item]));imported.forEach(item=>byId.set(item.id,{...byId.get(item.id),...item}));return [...byId.values()]});setImporting(false);void withSave(fetch('/api/projects',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({projects:imported})}))};
+  const saveJourneys=(next:JourneyRecord[])=>{setJourneys(next);setManagingJourneys(false);void withSave(fetch('/api/journeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({journeys:next})}))};
+  const savePlan=(next:PlanRecord)=>{setPlan(next);setEditingPlan(false);void withSave(fetch('/api/plan',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(next)}))};
+  const initials=plan.name.split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()||'MP';
   return <main className="v2-shell">
-    <header className="v2-topbar"><a href="#" className="v2-brand"><Logo/><b>MarketMap</b></a><div className="v2-plan"><span>IS</span><p><b>ISV Marketing</b><small>2025 plan</small></p></div><button className="v2-avatar">IE</button></header>
-    <section className="v2-heading"><div><p className="v2-kicker">Demand plan · 2025</p><h1>{view==='flow'?'See how the work connects.':'See when the work happens.'}</h1><p>{view==='flow'?'Follow every project from discovery to action—and open the card when you need the working details.':'Plan at week level, spot busy periods, and find projects that still need dates.'}</p></div><div><nav aria-label="Plan views"><button className={view==='flow'?'active':''} onClick={()=>setView('flow')}>Flow map</button><button className={view==='year'?'active':''} onClick={()=>setView('year')}>Year map</button></nav><button className="v3-import-button" onClick={()=>setImporting(true)}>↑ Import</button><button className="v2-add" onClick={()=>setAdding(true)}>＋ Add project</button></div></section>
-    {view==='flow'?<FlowWorkspace items={items} journeys={journeys} onOpen={setSelected} onMove={moveProject} onAdd={()=>setAdding(true)} onManage={()=>setManagingJourneys(true)}/>:<YearTimeline items={items} onOpen={setSelected}/>}
+    <header className="v2-topbar"><a href="#" className="v2-brand"><Logo/><b>MarketMap</b></a><button className="v2-plan" onClick={()=>setEditingPlan(true)} aria-label="Edit plan name and year"><span>{initials}</span><p><b>{plan.name}</b><small>{plan.year} plan · Edit</small></p></button><div className={`v6-save-state ${saveState}`} role="status">{saveState==='saving'?'Saving…':saveState==='saved'?'✓ Saved':saveState==='error'?'Could not save':'All changes saved'}</div><button className="v2-avatar">IE</button></header>
+    <section className="v2-heading"><div><p className="v2-kicker">Demand plan · {plan.year}</p><h1>{view==='flow'?'See how the work connects.':'See when the work happens.'}</h1><p>{view==='flow'?'Follow every project from discovery to action—and see what needs attention.':'Plan at week level, spot busy periods, and find projects that still need dates.'}</p></div><div><nav aria-label="Plan views"><button className={view==='flow'?'active':''} onClick={()=>setView('flow')}>Flow map</button><button className={view==='year'?'active':''} onClick={()=>setView('year')}>Year map</button></nav><button className="v3-import-button" onClick={()=>setImporting(true)}>↑ Import</button><button className="v2-add" onClick={()=>setAdding(true)}>＋ Add project</button></div></section>
+    <PlanInsights items={items} journeys={journeys} year={plan.year} onOpen={setSelected}/>
+    {view==='flow'?<FlowWorkspace items={items} journeys={journeys} onOpen={setSelected} onMove={moveProject} onAdd={()=>setAdding(true)} onManage={()=>setManagingJourneys(true)}/>:<YearTimeline items={items} year={plan.year} onOpen={setSelected}/>}
     {selected&&<ProjectEditor project={selected} journeys={journeys} onClose={()=>setSelected(null)} onSave={saveProject}/>}
     {adding&&<AddProject journeys={journeys} onClose={()=>setAdding(false)} onAdd={addProject}/>}
     {importing&&<ImportPlan onClose={()=>setImporting(false)} onImport={importProjects}/>}
     {managingJourneys&&<ManageJourneys journeys={journeys} onClose={()=>setManagingJourneys(false)} onSave={saveJourneys}/>}
+    {editingPlan&&<PlanSettings plan={plan} onClose={()=>setEditingPlan(false)} onSave={savePlan}/>}
   </main>;
 }
