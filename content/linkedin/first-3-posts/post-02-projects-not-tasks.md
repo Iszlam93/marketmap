@@ -6,9 +6,17 @@ Continue directly from Post 01 and explain why MarketMap begins with projects, n
 
 ## Visual
 
-Use `designs/post-02-projects-not-tasks-FINAL.png`.
+Publish these three images in this order:
 
-Alt text: A paper-cut illustration showing many individual marketing tasks being grouped into five larger projects and then organised into one visual marketing landscape.
+1. `designs/post-02-carousel-slide-01-cover.png` — the “not another task manager” opening.
+2. `designs/post-02-carousel-slide-02-flow-map.png` — the real project-level Flow Map.
+3. `designs/post-02-carousel-slide-03-year-map.png` — the real project-level Year Map.
+
+Alt text:
+
+1. A paper-cut illustration showing many individual marketing tasks being grouped into larger projects and then organised into one visual marketing landscape.
+2. A MarketMap product screenshot showing marketing projects organised across awareness, consideration and action journeys.
+3. A MarketMap product screenshot showing projects placed into the exact weeks when they happen during the year.
 
 ## Ready-to-publish copy
 
@@ -50,7 +58,7 @@ I’m curious whether your high-level plan and delivery tasks live in the same t
 ## Publishing notes
 
 - Schedule for the day after Post 01.
+- Upload the three images in the numbered order above as one multi-image LinkedIn post.
 - Do not add the prototype link yet.
 - Ask commenters which tools they use for planning versus delivery.
 - Track whether marketers agree that a project-level overview is missing.
-

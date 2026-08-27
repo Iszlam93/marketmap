@@ -11,7 +11,9 @@ This folder contains the ready-to-publish copy and matching visual designs for t
 ## Final design files
 
 - `designs/post-01-origin-story-V2-FINAL.png`
-- `designs/post-02-projects-not-tasks-FINAL.png`
+- `designs/post-02-carousel-slide-01-cover.png`
+- `designs/post-02-carousel-slide-02-flow-map.png`
+- `designs/post-02-carousel-slide-03-year-map.png`
 - `designs/post-03-testing-invitation-FINAL.png`
 
 The `-background.png` files are clean versions without text. Keep them for future edits or alternative headlines. The earlier `post-01-origin-story-FINAL.png` is preserved for comparison; publish the `V2-FINAL` version.
