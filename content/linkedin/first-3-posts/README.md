@@ -5,16 +5,18 @@ This folder contains the ready-to-publish copy and matching visual designs for t
 ## Recommended publishing order
 
 1. `post-01-origin-story.md` — publish first to validate the core problem.
-2. `post-02-outside-funnel.md` — publish 3–4 days later to demonstrate product thinking.
+2. `post-02-projects-not-tasks.md` — publish the next day to explain the product’s level of focus.
 3. `post-03-testing-invitation.md` — publish 3–5 days later to recruit early testers.
 
 ## Final design files
 
 - `designs/post-01-origin-story-V2-FINAL.png`
-- `designs/post-02-outside-funnel-FINAL.png`
+- `designs/post-02-projects-not-tasks-FINAL.png`
 - `designs/post-03-testing-invitation-FINAL.png`
 
 The `-background.png` files are clean versions without text. Keep them for future edits or alternative headlines. The earlier `post-01-origin-story-FINAL.png` is preserved for comparison; publish the `V2-FINAL` version.
+
+The earlier “Outside funnel” caption and artwork are preserved in `../later-posts/outside-funnel/` for a later product-decision chapter.
 
 ## Brand system used
 

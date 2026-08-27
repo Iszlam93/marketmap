@@ -1,4 +1,8 @@
-# Post 2 — Not Everything Belongs in the Funnel
+# Future Post — Not Everything Belongs in the Funnel
+
+## Series note
+
+Keep this for a later product-decision chapter, likely Post 06 or 07. Update the post number in the final artwork before publishing.
 
 ## Purpose
 
@@ -6,7 +10,7 @@ Show product thinking and invite marketers to challenge one specific design deci
 
 ## Visual
 
-Use `designs/post-02-outside-funnel-FINAL.png`.
+Use `post-outside-funnel-FINAL.png`.
 
 Alt text: A three-stage marketing journey surrounded by research, reporting, operations, retention and enablement activities that support the overall journey.
 
@@ -35,8 +39,6 @@ How do you represent these activities in your current marketing plan?
 Examples I’m thinking about: market research, monthly reporting, marketing operations, partner enablement and customer retention. What would you add?
 
 ## Optional carousel expansion
-
-If this post becomes a carousel later, use these four slides:
 
 1. Does every marketing activity belong in TOFU, MOFU or BOFU?
 2. Funnel examples: awareness campaign, consideration webinar, action programme.
