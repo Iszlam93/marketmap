@@ -24,6 +24,7 @@ export const createPlansTable = `
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     plan_year INTEGER NOT NULL,
+    strategy_json TEXT NOT NULL DEFAULT '{}',
     updated_at TEXT NOT NULL
   )
 `;
