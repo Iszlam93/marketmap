@@ -5,6 +5,7 @@ import readXlsxFile from 'read-excel-file/browser';
 import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
 import './strategy.css';
 import './strategy-controls.css';
+import './strategy-bright.css';
 import StrategyCanvas, { type StrategyMapState } from './StrategyCanvas';
 
 type Stage = 'TOFU' | 'MOFU' | 'BOFU' | 'UNASSIGNED';
