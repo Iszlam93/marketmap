@@ -45,7 +45,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Decide which Asana objects are imported in v1: projects only.
 - [x] Define the exact Asana fields MarketMap reads.
 - [x] Define the exact MarketMap fields AI returns.
-- [ ] Define how AI chooses the journey.
+- [x] Define how AI chooses the journey.
 - [ ] Define how AI chooses the primary and supporting funnel stages.
 - [ ] Define how AI chooses the project category.
 - [ ] Define how dates and timing are interpreted.

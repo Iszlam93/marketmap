@@ -67,6 +67,20 @@ AI must not invent:
 
 If this information is unavailable in Asana, MarketMap marks it as missing and asks the marketer to review it.
 
+## Approved journey creation
+
+Journeys are organization-specific groupings such as a product line, audience, market, service, or customer motion.
+
+During onboarding:
+
+1. MarketMap reviews the selected Asana projects.
+2. AI suggests a small number of journey groups.
+3. The marketer can rename, remove, or add journeys.
+4. The marketer approves the journey list.
+5. AI places projects into the approved journeys.
+
+AI must not create or rename journeys after this approval without asking the marketer. If a project does not fit an approved journey with sufficient confidence, MarketMap marks its journey as needing review.
+
 ## Example output
 
 ```text
@@ -82,7 +96,6 @@ Reason: The webinar introduces the solution and helps prospects evaluate it.
 
 ## Decisions still required in Phase 1
 
-- How AI chooses the journey
 - How AI chooses primary and supporting funnel stages
 - How AI chooses a project category
 - How dates and timing are interpreted
