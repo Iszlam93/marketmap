@@ -13,7 +13,7 @@ Prove that an experienced B2B marketer can connect Asana, review AI suggestions,
 | Phase | Outcome | Status |
 |---|---|---|
 | Foundation | Product direction and repository aligned | **Done** |
-| Phase 1 | Define how Asana projects become MarketMap projects | **Not started — next** |
+| Phase 1 | Define how Asana projects become MarketMap projects | **In progress** |
 | Phase 2 | Prove the proposed mapping works on real projects | **Not started** |
 | Phase 3 | Design the complete onboarding journey | **Not started** |
 | Phase 4 | Test onboarding with five Asana-using marketers | **Not started** |
@@ -38,13 +38,13 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 
 ## Phase 1 — Define how the product works
 
-**Status: Not started — next**
+**Status: In progress**
 
 ### Actions
 
-- [ ] Decide which Asana objects are imported in v1: projects only.
-- [ ] Define the exact Asana fields MarketMap reads.
-- [ ] Define the exact MarketMap fields AI returns.
+- [x] Decide which Asana objects are imported in v1: projects only.
+- [x] Define the exact Asana fields MarketMap reads.
+- [x] Define the exact MarketMap fields AI returns.
 - [ ] Define how AI chooses the journey.
 - [ ] Define how AI chooses the primary and supporting funnel stages.
 - [ ] Define how AI chooses the project category.

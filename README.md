@@ -52,6 +52,7 @@ No public-launch or full-build decision has been made. The next milestone is evi
 ## Product documentation
 
 - [MVP definition](docs/MVP.md)
+- [Asana-to-MarketMap mapping contract](docs/MAPPING_CONTRACT.md)
 - [Validation plan](docs/VALIDATION.md)
 - [Next steps](docs/NEXT_STEPS.md)
 - [Product readiness review](PRODUCT_READINESS_REVIEW.md)
