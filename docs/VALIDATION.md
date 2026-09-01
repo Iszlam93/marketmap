@@ -1,15 +1,15 @@
 # MarketMap Validation Plan
 
 **Status:** Active discovery plan
-**Updated:** 18 August 2026
+**Updated:** 1 September 2026
 
 ## Decision to make
 
-Should MarketMap advance from a clickable prototype to a private working alpha?
+Should MarketMap advance from the current working prototype to an Asana-connected, AI-assisted private alpha?
 
 ## Central hypothesis
 
-Experienced B2B marketers managing multiple initiatives struggle to maintain a clear, current picture of marketing across the funnel and year. A structured visual map will help them understand the plan, identify gaps or overload, and communicate status with less manual reconstruction.
+Experienced B2B marketers managing multiple initiatives in Asana struggle to maintain a clear, current picture of marketing across the funnel, year, and strategy. An AI-assisted visual map connected to Asana will help them understand the plan, identify gaps or overload, and communicate status with less manual reconstruction.
 
 ## Critical assumptions
 
@@ -20,12 +20,15 @@ Experienced B2B marketers managing multiple initiatives struggle to maintain a c
 5. Users can maintain the map with acceptably low effort.
 6. The map changes or accelerates a real planning or reporting decision.
 7. A buyer will pay for the clarity and time saved.
+8. Asana contains enough project-level context for MarketMap to produce useful mapping suggestions.
+9. Marketers will trust AI suggestions when uncertain placements are explained and easy to correct.
 
 ## Research participants
 
 Recruit 10–15 experienced marketers who:
 
 - Work in or closely with a B2B marketing team
+- Currently use Asana for multiple marketing projects
 - Manage or coordinate multiple concurrent initiatives
 - Participate in recurring planning or reporting
 - Can show a real spreadsheet, board, presentation, or report
@@ -49,6 +52,8 @@ Do not show or pitch MarketMap during the first half of the conversation.
 8. What have you already tried to improve this process?
 9. Which existing system is treated as the source of truth?
 10. Who would approve spending on a better solution?
+11. Which Asana fields, naming conventions, tags, or custom fields carry strategic meaning today?
+12. Which project information would the team permit MarketMap to read?
 
 ### Prototype test
 
@@ -63,7 +68,7 @@ Ask the participant to identify:
 - Which initiatives span or connect across stages
 - What they would change in the plan
 
-Then ask them to map several of their own real initiatives.
+Then ask them to connect or provide a representative export of their real Asana projects. Simulate the proposed AI mapping where needed, show the suggested placements, and ask them to approve or correct uncertain results.
 
 ## Evidence to capture
 
@@ -83,6 +88,10 @@ For every participant, record:
 - Objections and missing essentials
 - Willingness-to-pay evidence
 - Follow-up commitment
+- Mapping accuracy before and after marketer review
+- Number of projects requiring manual correction
+- Time from Asana connection to first useful map
+- Trust or privacy objections raised during onboarding
 
 ## Success thresholds
 
@@ -91,7 +100,8 @@ Advance to a private alpha only if:
 - At least 8 of 10 initial participants independently describe a recurring visibility or reconstruction problem.
 - At least 7 show a workaround involving two or more tools or manually rebuilt reporting.
 - At least 6 identify a genuine gap, overlap, risk, or priority using the prototype.
-- A user can map approximately 20 initiatives in 15–20 minutes.
+- A user can connect, review, and map approximately 20 Asana projects in 15–20 minutes.
+- At least 80% of suggested placements are accepted without correction during the alpha.
 - At least 4 teams want to use it in a real planning or reporting cycle.
 - At least 3 provide a credible paid commitment or agree to a paid design-partner pilot.
 
@@ -101,6 +111,8 @@ Advance to a private alpha only if:
 - The map requires extensive explanation.
 - Most users need tasks before the overview is useful.
 - Initiative entry duplicates too much work from the source system.
+- Users do not permit the required Asana data access.
+- AI suggestions create more correction work than they remove.
 - Users expect to open it only once per year.
 - The product is valuable only as a presentation export.
 - Different users interpret the visual status language inconsistently.

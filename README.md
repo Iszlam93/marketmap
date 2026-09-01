@@ -22,9 +22,20 @@ That full picture is commonly rebuilt manually in spreadsheets, slides, whiteboa
 
 ## Current product hypothesis
 
-> A B2B marketer adds their major marketing initiatives once and receives a clear visual picture of the plan across the funnel and year.
+> A B2B marketer connects an existing Asana workspace and receives an AI-assisted visual picture of the plan across the funnel, year, and strategy.
 
-The first version is project-level only. It deliberately excludes tasks and subtasks so the team can validate whether the visual overview itself creates recurring value.
+The first version is project-level only. MarketMap imports projects from Asana, suggests their journey, funnel stage, category, and timing, and asks the marketer to review uncertain suggestions before creating the map. It deliberately excludes tasks and subtasks so the team can validate whether the visual overview itself creates recurring value.
+
+## Official MVP onboarding decision
+
+1. The marketer creates a MarketMap account.
+2. The marketer connects Asana and selects the projects to include.
+3. MarketMap imports the relevant project information.
+4. MarketMap's built-in AI suggests how each project should be mapped.
+5. The marketer reviews uncertain suggestions and remains in control of the final placement.
+6. MarketMap creates the flow, year, and strategy views from one shared project record.
+
+The customer connects only Asana. The OpenAI API is an internal MarketMap service and is not connected or configured by the customer.
 
 ## Target customer hypothesis
 
@@ -42,6 +53,7 @@ No public-launch or full-build decision has been made. The next milestone is evi
 
 - [MVP definition](docs/MVP.md)
 - [Validation plan](docs/VALIDATION.md)
+- [Next steps](docs/NEXT_STEPS.md)
 - [Product readiness review](PRODUCT_READINESS_REVIEW.md)
 - [2025 calendar normalization review](docs/NORMALIZATION_REVIEW.md)
 - [Normalized 2025 initiative dataset](data/normalized-initiatives-2025.json)
@@ -51,6 +63,8 @@ No public-launch or full-build decision has been made. The next milestone is evi
 - The visual map is the product, not decoration over a generic project-management interface.
 - Initiative-level clarity comes before task management.
 - Funnel and quarter are two views of the same underlying initiatives.
+- Asana remains the execution source; MarketMap is the visual planning and decision layer.
+- AI reduces setup and maintenance, while marketers approve the resulting structure.
 - Beauty earns attention; usefulness and low maintenance earn retention.
 - Product decisions should be based on observed behavior and real planning artifacts.
 

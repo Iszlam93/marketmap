@@ -3,6 +3,14 @@
 **Date:** 18 August 2026
 **Decision:** Proceed to customer validation and a narrow private alpha. Do not start a broad build or public launch yet.
 
+## Current MVP decision — 1 September 2026
+
+MarketMap will validate an **Asana-first, AI-assisted onboarding flow**:
+
+> Connect Asana → select projects → import project information → receive AI mapping suggestions → review uncertain placements → create the visual map.
+
+Asana remains the execution source of truth. MarketMap becomes the visual planning and decision layer. The customer connects only Asana; MarketMap owns and pays for the internal OpenAI API connection. Spreadsheet or CSV import is no longer the primary MVP onboarding experience.
+
 ## 1. Executive assessment
 
 The strongest insight is not that marketing should be more visual. It is:
@@ -134,7 +142,10 @@ Build only the cross-functional B2B initiative landscape:
 - Progressive initiative detail panel without tasks or subtasks
 - Comments or decision notes
 - Shareable view-only link
-- Simple CSV import or assisted onboarding
+- One Asana connection and project selection
+- AI-assisted journey, funnel-stage, category, and timing suggestions
+- A review queue for uncertain or incomplete mappings
+- Saved mapping decisions and selective synchronization when projects change
 - A visible “gaps and risks” summary based on deterministic rules
 
 ### Explicitly exclude from v1
@@ -152,7 +163,7 @@ Build only the cross-functional B2B initiative landscape:
 
 ### First-value experience
 
-A user should import or add existing campaigns, see a credible full-funnel map, invite one colleague, and identify at least one gap or risk in **20 minutes or less**.
+A user should connect Asana, review the suggested mapping, see a credible full-funnel map, invite one colleague, and identify at least one gap or risk in **20 minutes or less**.
 
 If setup takes hours, the product will become a workshop artifact rather than a living operating tool.
 
@@ -270,7 +281,7 @@ Use clear language before inventing a new category:
 
 ### Working positioning
 
-> Add your marketing initiatives once and see the complete plan across your funnel and year in one living map.
+> Connect Asana, review the suggested structure, and see the complete marketing plan across your funnel, year, and strategy in one living map.
 
 ### Message hierarchy
 
@@ -296,7 +307,7 @@ Use clear language before inventing a new category:
 | Risk | Mitigation |
 |---|---|
 | Visual novelty without recurring value | Anchor the product to real planning and reporting cycles and measurable decisions |
-| Map becomes stale | Assisted import, integrations later, visible freshness, clear ownership, lightweight updates |
+| Map becomes stale | Selective Asana synchronization, visible freshness, clear ownership, and lightweight review of changed projects |
 | Blank-canvas anxiety | Guided setup, default funnel, sample data, templates |
 | Visual overload as campaigns grow | Semantic zoom, clustering, filters, opinionated layouts, density tests with 50+ campaigns |
 | Duplicate system of record | Position as a control layer and sync key fields from execution tools |
@@ -304,7 +315,7 @@ Use clear language before inventing a new category:
 | Attractive status cues are ambiguous | Add legends, labels, tooltips, accessible contrast, and non-color indicators |
 | Multiple visual languages multiply complexity | Prove one motion first and create a shared object model before adding more |
 | Enterprise requests distort v1 | Keep alpha in a defined mid-market segment |
-| AI distracts from the job | Use AI only when it reduces setup or maintenance; never as the unproven core |
+| AI distracts from the job | Use AI for mapping suggestions and maintenance only; keep the marketer in control and do not position AI-generated strategy as the core value |
 | Weak trust or vendor continuity | Transparent pricing, export, backups, reliable support, and no lifetime promises |
 
 ## 13. Security and operational readiness
@@ -362,7 +373,7 @@ This document is product guidance, not legal advice.
 ### Stage 2 — Concierge alpha (4–6 weeks)
 
 - Build the smallest usable map
-- Manually assist data import and onboarding
+- Manually support Asana connection and AI-mapping review during the first design-partner onboardings
 - Observe real planning or reporting meetings with permission
 - Ship only changes connected to activation or retention
 
@@ -371,7 +382,7 @@ This document is product guidance, not legal advice.
 ### Stage 3 — Private beta
 
 - Expand to roughly 15–25 teams
-- Add the single highest-value integration
+- Improve the Asana integration and synchronization before considering another source tool
 - Validate self-serve onboarding and support load
 - Test packaging and price sensitivity
 
@@ -408,8 +419,8 @@ Do not publicly launch until all critical items are true:
 
 1. Define the first customer as experienced marketers in cross-functional B2B teams managing multiple concurrent initiatives.
 2. Recruit 10–15 interviewees who can show a real plan, spreadsheet, board, or report.
-3. Create a prototype showing one objective, one funnel, four quarters, and 15–25 initiatives without task management.
-4. Test it with real campaigns and realistic density rather than polished sample content alone.
+3. Test the current prototype with one objective, one funnel, four quarters, and 15–25 real Asana projects without task management.
+4. Validate the proposed Asana-to-AI review flow through assisted onboarding before automating it fully.
 5. Ask five teams to become paid design partners.
 6. Decide the build only after comparing the results with the explicit thresholds above.
 
