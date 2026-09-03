@@ -81,6 +81,32 @@ During onboarding:
 
 AI must not create or rename journeys after this approval without asking the marketer. If a project does not fit an approved journey with sufficient confidence, MarketMap marks its journey as needing review.
 
+## Approved funnel-stage placement
+
+MarketMap starts with three default stages:
+
+- Awareness
+- Consideration
+- Action
+
+The marketer may rename these stages. AI chooses placement according to the project's intended effect on the audience rather than using its format alone.
+
+Every mapped project has one primary stage. It may also have a supporting stage when its objective genuinely spans more than one part of the funnel.
+
+- A single-stage project appears inside that stage.
+- A project supporting two stages appears between those stages as one project card, not as duplicates.
+- A project that does not belong in the funnel appears in an Outside funnel area.
+- A project with insufficient information is marked Needs review rather than being assigned through guesswork.
+
+Example:
+
+```text
+Project: Industry webinar
+Primary stage: Consideration
+Supporting stage: Awareness
+Visual placement: Between Awareness and Consideration
+```
+
 ## Example output
 
 ```text
@@ -96,7 +122,6 @@ Reason: The webinar introduces the solution and helps prospects evaluate it.
 
 ## Decisions still required in Phase 1
 
-- How AI chooses primary and supporting funnel stages
 - How AI chooses a project category
 - How dates and timing are interpreted
 - What high, medium, and low confidence mean

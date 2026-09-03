@@ -46,7 +46,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define the exact Asana fields MarketMap reads.
 - [x] Define the exact MarketMap fields AI returns.
 - [x] Define how AI chooses the journey.
-- [ ] Define how AI chooses the primary and supporting funnel stages.
+- [x] Define how AI chooses the primary and supporting funnel stages.
 - [ ] Define how AI chooses the project category.
 - [ ] Define how dates and timing are interpreted.
 - [ ] Define high, medium, and low AI confidence.
