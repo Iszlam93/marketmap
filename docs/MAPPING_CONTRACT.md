@@ -51,6 +51,7 @@ Using the approved Asana project information, MarketMap AI may suggest:
 - Primary funnel stage
 - Supporting funnel stages, when relevant
 - Project category
+- Format or channel
 - Short objective summary
 - Timing interpretation
 - Confidence level
@@ -107,6 +108,59 @@ Supporting stage: Awareness
 Visual placement: Between Awareness and Consideration
 ```
 
+## Approved category and format/channel structure
+
+MarketMap uses two fields so that the type of project is not confused with how or where it is delivered.
+
+### Project category
+
+- Campaign
+- Content
+- Event
+- Programme
+- Product launch
+- Partnership
+- Website or digital experience
+- Internal or operational
+- Other
+
+### Format or channel
+
+- Paid ads
+- Online event
+- Onsite event
+- Email
+- Organic social
+- Website
+- Partner channel
+- Multi-channel
+- Not applicable
+
+AI chooses from the marketer's approved lists and must not silently create a new value. The marketer may rename the values and configure their visual colours.
+
+Across MarketMap views:
+
+- Funnel stage controls the project's position.
+- Project category controls the main card colour and category label.
+- Format or channel appears as a visible badge.
+- A project that cannot be classified reliably is marked Other — needs review.
+
+Examples:
+
+```text
+Project: Google Search Campaign
+Category: Campaign
+Format or channel: Paid ads
+
+Project: Customer Webinar
+Category: Event
+Format or channel: Online event
+
+Project: Industry Exhibition
+Category: Event
+Format or channel: Onsite event
+```
+
 ## Example output
 
 ```text
@@ -122,7 +176,6 @@ Reason: The webinar introduces the solution and helps prospects evaluate it.
 
 ## Decisions still required in Phase 1
 
-- How AI chooses a project category
 - How dates and timing are interpreted
 - What high, medium, and low confidence mean
 - Which suggestions require marketer review

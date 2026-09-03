@@ -47,7 +47,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define the exact MarketMap fields AI returns.
 - [x] Define how AI chooses the journey.
 - [x] Define how AI chooses the primary and supporting funnel stages.
-- [ ] Define how AI chooses the project category.
+- [x] Define how AI chooses the project category and format/channel.
 - [ ] Define how dates and timing are interpreted.
 - [ ] Define high, medium, and low AI confidence.
 - [ ] Decide which suggestions require marketer review.
