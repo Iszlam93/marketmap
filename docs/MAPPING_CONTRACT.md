@@ -161,6 +161,30 @@ Category: Event
 Format or channel: Onsite event
 ```
 
+## Approved timing interpretation
+
+MarketMap normally calculates timing directly from Asana without AI.
+
+- Start and due dates come from Asana.
+- MarketMap calculates the relevant weeks, quarter, and duration.
+- AI must never invent exact dates.
+- When both dates exist, MarketMap shows the full project duration.
+- When only the due date exists, MarketMap shows the deadline week and flags Start date missing.
+- When only the start date exists, MarketMap shows when the project begins and flags End date missing.
+- When neither date exists, MarketMap places the project under Unscheduled and requests review.
+- A project crossing the selected planning year is shown as continuing from the previous year or into the next year.
+- If the Asana description contains broad timing such as Launch in Q3, AI may suggest that period, but the marketer must approve it before MarketMap treats it as official timing.
+
+Example:
+
+```text
+Asana start date: 10 March
+Asana due date: 28 March
+MarketMap quarter: Q1
+MarketMap active weeks: Week 11–13
+Source: Confirmed from Asana
+```
+
 ## Example output
 
 ```text
@@ -176,7 +200,6 @@ Reason: The webinar introduces the solution and helps prospects evaluate it.
 
 ## Decisions still required in Phase 1
 
-- How dates and timing are interpreted
 - What high, medium, and low confidence mean
 - Which suggestions require marketer review
 - How marketer corrections are saved

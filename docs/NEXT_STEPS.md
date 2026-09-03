@@ -48,7 +48,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define how AI chooses the journey.
 - [x] Define how AI chooses the primary and supporting funnel stages.
 - [x] Define how AI chooses the project category and format/channel.
-- [ ] Define how dates and timing are interpreted.
+- [x] Define how dates and timing are interpreted.
 - [ ] Define high, medium, and low AI confidence.
 - [ ] Decide which suggestions require marketer review.
 - [ ] Define how marketer corrections are saved.
