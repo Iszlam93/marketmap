@@ -49,8 +49,8 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define how AI chooses the primary and supporting funnel stages.
 - [x] Define how AI chooses the project category and format/channel.
 - [x] Define how dates and timing are interpreted.
-- [ ] Define high, medium, and low AI confidence.
-- [ ] Decide which suggestions require marketer review.
+- [x] Define the internal AI confidence rule and simple customer-facing result.
+- [x] Decide which suggestions require marketer review.
 - [ ] Define how marketer corrections are saved.
 - [ ] Define when MarketMap synchronizes with Asana.
 - [ ] Define when AI is allowed to remap an existing project.

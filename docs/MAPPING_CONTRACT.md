@@ -185,6 +185,30 @@ MarketMap active weeks: Week 11–13
 Source: Confirmed from Asana
 ```
 
+## Approved confidence and review experience
+
+MarketMap keeps technical AI confidence hidden from the marketer. The onboarding experience uses only two clear groups:
+
+### Mapped for you
+
+The available project information clearly supports the suggested journey, stage, category, and format/channel. MarketMap places the project on the draft map automatically. The marketer can still review and change it.
+
+### Needs your help
+
+The project information is missing, unclear, contradictory, or supports more than one reasonable interpretation. MarketMap does not guess. The marketer is asked to complete or choose the unclear fields.
+
+The onboarding summary uses plain language, for example:
+
+```text
+We found 40 projects.
+34 have been mapped for you.
+6 need your help.
+```
+
+Internal confidence may be stored for product logic and quality monitoring, but MarketMap does not show technical percentages or high, medium, and low labels to customers.
+
+A project is added to Needs your help when any essential placement field cannot be suggested reliably. MarketMap provides a short explanation based on the available Asana information. Every automatically mapped project remains editable.
+
 ## Example output
 
 ```text
@@ -200,8 +224,6 @@ Reason: The webinar introduces the solution and helps prospects evaluate it.
 
 ## Decisions still required in Phase 1
 
-- What high, medium, and low confidence mean
-- Which suggestions require marketer review
 - How marketer corrections are saved
 - When MarketMap synchronizes with Asana
 - When AI may remap an existing project
