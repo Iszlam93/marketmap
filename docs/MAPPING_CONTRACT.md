@@ -209,6 +209,35 @@ Internal confidence may be stored for product logic and quality monitoring, but 
 
 A project is added to Needs your help when any essential placement field cannot be suggested reliably. MarketMap provides a short explanation based on the available Asana information. Every automatically mapped project remains editable.
 
+## Approved correction and workspace-learning rules
+
+The marketer's correction always becomes the final decision for that project. MarketMap also uses approved corrections to improve future suggestions for the same workspace.
+
+For every correction, MarketMap stores:
+
+- The original AI suggestion
+- The marketer's approved value
+- The relevant project wording and context used as a reusable example
+- The affected journey, stage, category, or format/channel field
+- The time of the correction
+
+When MarketMap receives a similar project later, it provides relevant previous corrections as examples for the next AI mapping request. Repeated corrections can become stronger workspace-specific preferences.
+
+The correction experience includes a selected-by-default option:
+
+> Remember this choice for similar projects
+
+Learning boundaries:
+
+- Learning remains private to the customer's workspace.
+- One customer's corrections do not influence another customer's map.
+- A manual decision is never overwritten automatically.
+- The marketer can view, change, or delete learned preferences.
+- The marketer can reset workspace learning.
+- Customer corrections are not automatically used to train an external shared model.
+
+For the MVP, MarketMap learns through stored workspace examples and preferences rather than training a separate AI model for each customer.
+
 ## Example output
 
 ```text
@@ -216,14 +245,14 @@ Project: Payment Solution Webinar
 Journey: Customer acquisition
 Primary stage: Consideration
 Supporting stage: Awareness
-Category: Webinar
+Category: Event
+Format or channel: Online event
 Objective: Educate prospective customers
-Confidence: 86%
+Review result: Mapped for you
 Reason: The webinar introduces the solution and helps prospects evaluate it.
 ```
 
 ## Decisions still required in Phase 1
 
-- How marketer corrections are saved
 - When MarketMap synchronizes with Asana
 - When AI may remap an existing project

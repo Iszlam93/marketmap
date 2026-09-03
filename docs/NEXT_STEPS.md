@@ -51,7 +51,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define how dates and timing are interpreted.
 - [x] Define the internal AI confidence rule and simple customer-facing result.
 - [x] Decide which suggestions require marketer review.
-- [ ] Define how marketer corrections are saved.
+- [x] Define how marketer corrections are saved and used for workspace learning.
 - [ ] Define when MarketMap synchronizes with Asana.
 - [ ] Define when AI is allowed to remap an existing project.
 
