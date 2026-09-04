@@ -2,7 +2,7 @@
 
 **Status:** Active
 
-**Updated:** 1 September 2026
+**Updated:** 4 September 2026
 
 ## Current objective
 
@@ -13,8 +13,8 @@ Prove that an experienced B2B marketer can connect Asana, review AI suggestions,
 | Phase | Outcome | Status |
 |---|---|---|
 | Foundation | Product direction and repository aligned | **Done** |
-| Phase 1 | Define how Asana projects become MarketMap projects | **In progress** |
-| Phase 2 | Prove the proposed mapping works on real projects | **Not started** |
+| Phase 1 | Define how Asana projects become MarketMap projects | **Done** |
+| Phase 2 | Prove the proposed mapping works on real projects | **Not started — next** |
 | Phase 3 | Design the complete onboarding journey | **Not started** |
 | Phase 4 | Test onboarding with five Asana-using marketers | **Not started** |
 | Phase 5 | Build the Asana-connected private alpha | **Not started** |
@@ -38,7 +38,7 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 
 ## Phase 1 — Define how the product works
 
-**Status: In progress**
+**Status: Done**
 
 ### Actions
 
@@ -52,8 +52,8 @@ Update a phase to **In progress** when work begins and **Done** only when its co
 - [x] Define the internal AI confidence rule and simple customer-facing result.
 - [x] Decide which suggestions require marketer review.
 - [x] Define how marketer corrections are saved and used for workspace learning.
-- [ ] Define when MarketMap synchronizes with Asana.
-- [ ] Define when AI is allowed to remap an existing project.
+- [x] Define when MarketMap synchronizes with Asana.
+- [x] Define when AI is allowed to remap an existing project.
 
 ### Completion condition
 
@@ -61,7 +61,7 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 ## Phase 2 — Test the mapping manually
 
-**Status: Not started**
+**Status: Not started — next**
 
 ### Actions
 

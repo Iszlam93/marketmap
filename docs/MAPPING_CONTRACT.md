@@ -2,9 +2,9 @@
 
 **Phase:** Phase 1 — Define how the product works
 
-**Status:** In progress
+**Status:** Complete
 
-**Approved:** 1 September 2026
+**Approved:** 4 September 2026
 
 ## Purpose
 
@@ -238,6 +238,27 @@ Learning boundaries:
 
 For the MVP, MarketMap learns through stored workspace examples and preferences rather than training a separate AI model for each customer.
 
+## Approved Asana synchronization
+
+- MarketMap performs a complete import when Asana is first connected.
+- MarketMap checks for updates when the marketer opens the product, but no more than once every 24 hours.
+- The marketer can select Sync now at any time.
+- Asana remains the source of truth for project name, owner, dates, and status, so those factual fields update automatically.
+- New Asana projects receive mapping suggestions using the workspace's approved journeys, taxonomy, and learned corrections.
+- A removed or archived Asana project is labelled No longer active in Asana rather than being deleted immediately.
+- MarketMap-specific journeys, stages, relationships, and learned corrections remain protected during synchronization.
+- AI does not run again when no strategically important information has changed.
+
+## Approved remapping rules
+
+MarketMap never replaces a marketer-approved placement automatically.
+
+When a project's important wording or context changes in Asana, MarketMap displays:
+
+> This project changed in Asana. Review its placement?
+
+AI produces a new suggestion only after the marketer approves that review or manually selects Suggest placement again. Factual Asana updates such as dates, owner, and status do not trigger remapping by themselves.
+
 ## Example output
 
 ```text
@@ -252,7 +273,6 @@ Review result: Mapped for you
 Reason: The webinar introduces the solution and helps prospects evaluate it.
 ```
 
-## Decisions still required in Phase 1
+## Phase 1 result
 
-- When MarketMap synchronizes with Asana
-- When AI may remap an existing project
+The Asana-to-MarketMap mapping contract is complete and ready for manual testing in Phase 2.
