@@ -11,6 +11,16 @@ Test two separate questions using the same 10 marketing projects:
 1. Can MarketMap receive complete and correct project information from Asana, Excel, and Google Sheets?
 2. Can MarketMap interpret that information and create useful mapping suggestions?
 
+## Approved test order
+
+Sources are tested sequentially rather than in parallel:
+
+1. **Asana:** Complete the connection, field, and mapping test first.
+2. **Excel:** Start only after the Asana result is documented.
+3. **Google Sheets:** Start only after the Excel result is documented.
+
+Each source must reach a clear pass, revise, or stop decision before work begins on the next source.
+
 ## Controlled test set
 
 The following private projects were created in the Asana `My workspace` team. Every name is prefixed with `MarketMap Test` to distinguish test data from normal work.
@@ -35,6 +45,25 @@ The following private projects were created in the Asana `My workspace` team. Ev
 | Asana | Ten private projects created and verified through the connected Asana account | **Test data ready** |
 | Excel | Create one structured workbook containing the identical ten records | Pending |
 | Google Sheets | Import the verified workbook as a native Google Sheet | Pending |
+
+## Source decision gates
+
+### Asana gate — current
+
+- Ten controlled projects exist.
+- Authenticated create and read access works.
+- Key imported fields have been inspected.
+- Mapping suggestions, marketer review, and acceptance measurement remain to be completed.
+
+Do not begin the Excel test until the Asana mapping result is reviewed.
+
+### Excel gate
+
+Create, import, map, review, and score the identical 10 records. Do not begin Google Sheets until the Excel result is reviewed.
+
+### Google Sheets gate
+
+Create or import the identical 10 records, map them, review them, and score the result. Then compare all three sources.
 
 ## Initial Asana connection result
 
@@ -80,4 +109,4 @@ This proves basic authenticated project creation and read access. It does not ye
 
 ## Current limitation
 
-The controlled source records are ready in Asana. The local spreadsheet-authoring runtime and the Google Drive import connection were unavailable in the current session, so the matching Excel and native Google Sheets artifacts remain pending rather than being created through an unsupported workaround.
+The controlled source records are ready in Asana. Excel and Google Sheets work is intentionally deferred until the Asana decision gate is complete. The local spreadsheet-authoring runtime and Google Drive import connection will be checked again only when their respective test stages begin.

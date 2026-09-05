@@ -65,14 +65,33 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 ### Actions
 
+#### Phase 2A — Asana
+
 - [x] Create a controlled set of 10 representative marketing projects in the private Asana test workspace.
-- [ ] Prepare the same 10 projects as a structured Excel workbook.
-- [ ] Prepare the same 10 projects as a native Google Sheet.
 - [x] Test a minimal read-only Asana connection and record which approved fields are available.
+- [ ] Run the proposed mapping against the 10 Asana projects.
+- [ ] Let the marketer approve or correct every Asana mapping result.
+- [ ] Measure the Asana mapping acceptance rate and document source-field gaps.
+- [ ] Decide whether the Asana source test passes before testing another source.
+
+#### Phase 2B — Excel
+
+- [ ] Prepare the same 10 projects as a structured Excel workbook.
 - [ ] Test Excel upload and column recognition.
+- [ ] Run the proposed mapping against the Excel records.
+- [ ] Measure the Excel mapping acceptance rate and document source-field gaps.
+- [ ] Decide whether the Excel source test passes before testing Google Sheets.
+
+#### Phase 2C — Google Sheets
+
+- [ ] Prepare the same 10 projects as a native Google Sheet.
 - [ ] Test Google Sheets ingestion and column recognition.
+- [ ] Run the proposed mapping against the Google Sheets records.
+- [ ] Measure the Google Sheets mapping acceptance rate and document source-field gaps.
+
+#### Final comparison
+
 - [ ] Compare missing, changed, and incorrectly interpreted fields across all three sources.
-- [ ] Run the proposed classification instructions against those projects.
 - [ ] Compare the suggestions with senior-marketer judgment.
 - [ ] Record incorrect and uncertain mappings.
 - [ ] Improve the mapping instructions and rules.
@@ -81,7 +100,7 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 ### Completion condition
 
-Phase 2 is done when Asana, Excel, and Google Sheets have been tested with the same 10 projects, the import differences are documented, and at least 80% of mapping suggestions are accepted without correction—or when we have enough evidence to revise the source or mapping approach before building it.
+Phase 2 is done when Asana, Excel, and Google Sheets have been tested sequentially with the same 10 projects, each source has passed its own decision gate, the import differences are documented, and at least 80% of mapping suggestions are accepted without correction—or when we have enough evidence to revise the source or mapping approach before continuing.
 
 ## Phase 3 — Design the onboarding journey
 
