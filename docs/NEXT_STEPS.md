@@ -14,7 +14,7 @@ Prove that an experienced B2B marketer can connect Asana, review AI suggestions,
 |---|---|---|
 | Foundation | Product direction and repository aligned | **Done** |
 | Phase 1 | Define how Asana projects become MarketMap projects | **Done** |
-| Phase 2 | Prove the proposed mapping works on real projects | **Not started — next** |
+| Phase 2 | Prove source import and mapping work on controlled projects | **In progress** |
 | Phase 3 | Design the complete onboarding journey | **Not started** |
 | Phase 4 | Test onboarding with five Asana-using marketers | **Not started** |
 | Phase 5 | Build the Asana-connected private alpha | **Not started** |
@@ -61,11 +61,17 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 ## Phase 2 — Test the mapping manually
 
-**Status: Not started — next**
+**Status: In progress**
 
 ### Actions
 
-- [ ] Collect approximately 20 real or safely anonymized Asana marketing projects.
+- [x] Create a controlled set of 10 representative marketing projects in the private Asana test workspace.
+- [ ] Prepare the same 10 projects as a structured Excel workbook.
+- [ ] Prepare the same 10 projects as a native Google Sheet.
+- [ ] Test a minimal read-only Asana connection and confirm every approved field MarketMap can receive.
+- [ ] Test Excel upload and column recognition.
+- [ ] Test Google Sheets ingestion and column recognition.
+- [ ] Compare missing, changed, and incorrectly interpreted fields across all three sources.
 - [ ] Run the proposed classification instructions against those projects.
 - [ ] Compare the suggestions with senior-marketer judgment.
 - [ ] Record incorrect and uncertain mappings.
@@ -75,7 +81,7 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 ### Completion condition
 
-Phase 2 is done when at least 80% of mapping suggestions are accepted without correction, or when we have enough evidence to revise the mapping approach before building it.
+Phase 2 is done when Asana, Excel, and Google Sheets have been tested with the same 10 projects, the import differences are documented, and at least 80% of mapping suggestions are accepted without correction—or when we have enough evidence to revise the source or mapping approach before building it.
 
 ## Phase 3 — Design the onboarding journey
 
