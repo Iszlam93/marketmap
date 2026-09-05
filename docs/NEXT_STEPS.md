@@ -68,7 +68,7 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 - [x] Create a controlled set of 10 representative marketing projects in the private Asana test workspace.
 - [ ] Prepare the same 10 projects as a structured Excel workbook.
 - [ ] Prepare the same 10 projects as a native Google Sheet.
-- [ ] Test a minimal read-only Asana connection and confirm every approved field MarketMap can receive.
+- [x] Test a minimal read-only Asana connection and record which approved fields are available.
 - [ ] Test Excel upload and column recognition.
 - [ ] Test Google Sheets ingestion and column recognition.
 - [ ] Compare missing, changed, and incorrectly interpreted fields across all three sources.

@@ -36,6 +36,24 @@ The following private projects were created in the Asana `My workspace` team. Ev
 | Excel | Create one structured workbook containing the identical ten records | Pending |
 | Google Sheets | Import the verified workbook as a native Google Sheet | Pending |
 
+## Initial Asana connection result
+
+The connected account successfully created and read all 10 controlled projects. A detailed check of complete, undated, and ambiguous examples returned:
+
+| Approved field | Initial result |
+|---|---|
+| Project name | Received correctly |
+| Description | Received correctly through Asana project notes |
+| Start date | Received when present; null when deliberately omitted |
+| Due date | Received when present; null when deliberately omitted |
+| Owner | Received correctly |
+| Current status | Field is available but empty on the controlled projects |
+| Custom fields | Field is available but no custom fields are configured on the controlled projects |
+| Direct project link | Received correctly |
+| Tags | Not observed at project level in the initial result; requires a specific product decision or alternate Asana structure |
+
+This proves basic authenticated project creation and read access. It does not yet prove MarketMap's production OAuth implementation, which remains part of the private-alpha build.
+
 ## Fields to compare
 
 - Project name
