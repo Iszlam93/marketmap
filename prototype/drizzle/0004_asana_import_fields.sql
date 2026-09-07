@@ -1,0 +1,4 @@
+ALTER TABLE projects ADD COLUMN channel TEXT NOT NULL DEFAULT '';
+ALTER TABLE projects ADD COLUMN source TEXT NOT NULL DEFAULT 'manual';
+ALTER TABLE projects ADD COLUMN mapping_state TEXT NOT NULL DEFAULT 'mapped';
+ALTER TABLE projects ADD COLUMN mapping_reason TEXT NOT NULL DEFAULT '';

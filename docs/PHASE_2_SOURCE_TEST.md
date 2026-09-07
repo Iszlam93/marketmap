@@ -1,6 +1,6 @@
 # Phase 2 Source Comparison Test
 
-**Status:** In progress
+**Status:** In progress — mapping ready for marketer review
 
 **Started:** 5 September 2026
 
@@ -53,7 +53,8 @@ The following private projects were created in the Asana `My workspace` team. Ev
 - Ten controlled projects exist.
 - Authenticated create and read access works.
 - Key imported fields have been inspected.
-- Mapping suggestions, marketer review, and acceptance measurement remain to be completed.
+- The first mapping run is complete and recorded in `PHASE_2_ASANA_MAPPING_REVIEW.md`.
+- Marketer review and acceptance measurement remain to be completed.
 
 Do not begin the Excel test until the Asana mapping result is reviewed.
 
@@ -82,6 +83,8 @@ The connected account successfully created and read all 10 controlled projects. 
 | Tags | Not observed at project level in the initial result; requires a specific product decision or alternate Asana structure |
 
 This proves basic authenticated project creation and read access. It does not yet prove MarketMap's production OAuth implementation, which remains part of the private-alpha build.
+
+The authenticated read was repeated successfully on 7 September 2026. All ten controlled projects were returned again with the approved project-level fields. This confirms the current Asana connection is stable enough for the controlled import test; it does not replace the production OAuth work planned for Phase 5.
 
 ## Fields to compare
 

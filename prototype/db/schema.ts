@@ -13,6 +13,10 @@ export const createProjectsTable = `
     owner TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL DEFAULT 'planned',
     kpi TEXT NOT NULL DEFAULT '',
+    channel TEXT NOT NULL DEFAULT '',
+    source TEXT NOT NULL DEFAULT 'manual',
+    mapping_state TEXT NOT NULL DEFAULT 'mapped',
+    mapping_reason TEXT NOT NULL DEFAULT '',
     connections_json TEXT NOT NULL DEFAULT '[]',
     updated_at TEXT NOT NULL
   )

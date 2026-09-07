@@ -69,7 +69,7 @@ Phase 1 is done when one written mapping contract clearly describes the informat
 
 - [x] Create a controlled set of 10 representative marketing projects in the private Asana test workspace.
 - [x] Test a minimal read-only Asana connection and record which approved fields are available.
-- [ ] Run the proposed mapping against the 10 Asana projects.
+- [x] Run the proposed mapping against the 10 Asana projects.
 - [ ] Let the marketer approve or correct every Asana mapping result.
 - [ ] Measure the Asana mapping acceptance rate and document source-field gaps.
 - [ ] Decide whether the Asana source test passes before testing another source.
