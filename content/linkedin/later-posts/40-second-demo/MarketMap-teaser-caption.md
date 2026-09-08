@@ -10,7 +10,7 @@ So I started building MarketMap.
 
 The idea is simple:
 
-Connect Asana → let MarketMap suggest where each project belongs → review the suggestions → see the whole marketing plan visually.
+Connect Asana → let MarketMap suggest where each project belongs → review the suggestions → use the Flow Map and Strategy Map to see how the work moves and why it matters.
 
 This is still an early prototype, not a finished product. I’m building it in public and sharing the decisions, mistakes and progress along the way.
 
